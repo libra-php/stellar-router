@@ -1,9 +1,14 @@
 # StellarRouter
 [![PHP Composer](https://github.com/libra-php/stellar-router/actions/workflows/php.yml/badge.svg?branch=main)](https://github.com/libra-php/stellar-router/actions/workflows/php.yml)
 
-💫 StellarRouter is a PHP library that provides a powerful attribute-based router for mapping HTTP requests to request handlers 🚀
+🌜 StellarRouter is a PHP library that provides a powerful attribute-based router for mapping HTTP requests to request handlers.
 
-- Currently under development 👷
+🌟 Why settle for an ordinary router when you can have a celestial navigator? StellarRouter will guide your PHP applications through the vast universe of routes with utmost precision and cosmic speed.
+
+🚀 Join the StellarRouter Revolution today and witness your PHP applications reach for the stars! Let's navigate the routing galaxy together! 
+
+👷 *Currently under development*
+
 
 ### Features
 - [x] Easy to use
@@ -16,6 +21,7 @@
 - [ ] Route prefixes
 - [ ] Sub-domains
 - [ ] Geoblocking routes
+ 
  
 ### Installation
 
@@ -61,3 +67,5 @@ $class->$endpoint(...array_values($test['parameters']));
 // Prints:
 // edit: 42
 ```
+
+Made in Canada 🇨🇦
