@@ -20,6 +20,15 @@ final class BasicController
     }
 }
 
+final class DuplicateController 
+{
+  #[Get('/photos/{photo}/edit', 'photos.edit')]
+  public function edit($photo): void 
+  {
+    print("edit: $photo");
+  }
+}
+
 final class RouterTest extends TestCase
 {
   private $router;
@@ -48,5 +57,11 @@ final class RouterTest extends TestCase
   {
     $route = $this->router->handleRequest('GET', '/photos/42/edit');
     $this->assertSame('42', $route['parameters']['photo']);
+  }
+
+  public function testDuplicateRequestMethodRequestPathThrowsException(): void
+  {
+    $this->expectException(Exception::class);
+    $this->router->registerRoutes(DuplicateController::class);
   }
 }

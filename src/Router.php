@@ -2,12 +2,18 @@
 
 namespace StellarRouter;
 
+use Exception;
 use ReflectionClass;
 use ReflectionMethod;
 
 class Router
 {
   private array $routes = [];
+
+  public function getRoutes(): array
+  {
+    return $this->routes;
+  }
 
   /**
    * Register routes for your application.
@@ -25,6 +31,10 @@ class Router
 
       foreach ($attributes as $attribute) {
         $route = $attribute->newInstance();
+        $duplicate = array_filter($this->routes, fn ($r) => $r['path'] === $route->getPath() && $r['method'] === $route->getMethod());
+        if (!empty($duplicate)) {
+          throw new Exception("Duplicate route defined! path: '{$route->getPath()}' method: '{$route->getMethod()}'");
+        }
         // Build array of routes
         $this->routes[] = [
           'path' => $route->getPath(),
