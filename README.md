@@ -1,4 +1,5 @@
 # StellarRouter
+[![PHP Composer](https://github.com/libra-php/stellar-router/actions/workflows/php.yml/badge.svg?branch=main)](https://github.com/libra-php/stellar-router/actions/workflows/php.yml)
 
 StellarRouter is a PHP package that provides a powerful attribute-based router for mapping HTTP requests to request handlers 🚀
 
