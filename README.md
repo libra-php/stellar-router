@@ -6,16 +6,16 @@
 - Currently under development 👷
 
 ### Features
--[x] Easy to use
--[x] Basic HTTP routing (GET, POST, PUT, PATCH, DELETE)
--[x] Named routes
--[x] Bind route middleware
--[x] Route parameters
--[ ] Optional route parameters
--[ ] Grouped routes
--[ ] Route prefixes
--[ ] Sub-domains
--[ ] Geoblocking routes
+- [x] Easy to use
+- [x] Basic HTTP routing (GET, POST, PUT, PATCH, DELETE)
+- [x] Named routes
+- [x] Bind route middleware
+- [x] Route parameters
+- [ ] Optional route parameters
+- [ ] Grouped routes
+- [ ] Route prefixes
+- [ ] Sub-domains
+- [ ] Geoblocking routes
  
 ### Installation
 
