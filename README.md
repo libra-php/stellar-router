@@ -68,4 +68,4 @@ $class->$endpoint(...array_values($test['parameters']));
 // edit: 42
 ```
 
-Made in Canada 🇨🇦
+🇨🇦 Made in Canada
