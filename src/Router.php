@@ -50,6 +50,7 @@ class Router
       if ($this->matchRoute($route['path'], $requestUri) && $route['method'] === $requestMethod) {
         $parameters =  $this->extractParameters($route['path'], $requestUri);
         return [
+          'path' => $route['path'],
           'class' => $route['handlerClass'],
           'endpoint' => $route['handlerMethod'],
           'parameters' => $parameters,
