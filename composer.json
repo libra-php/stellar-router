@@ -1,6 +1,6 @@
 {
     "name": "libra-php/stellar-router",
-    "description": "StellarRouter is a PHP package that provides a powerful attribute-based router for mapping HTTP requests to request handlers.",
+    "description": "StellarRouter is a PHP library that provides a powerful attribute-based router for mapping HTTP requests to request handlers.",
     "type": "library",
     "license": "MIT",
     "autoload": {
