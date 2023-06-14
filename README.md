@@ -22,6 +22,7 @@ class BasicController
     {
         print("edit: $photo");
     }
+
     #[Post('/photos', 'photos.create')]
     public function create() 
     {
