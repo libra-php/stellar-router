@@ -18,6 +18,7 @@ class Router
   /**
    * Register routes for your application.
    * @param string $handlerClass controller class with route attributes
+   * @throws Exception
    */
   public function registerRoutes(string $handlerClass): void
   {
