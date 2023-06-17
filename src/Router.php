@@ -53,7 +53,7 @@ class Router
    * Handle the HTTP request and return class and endpoint for matched route
    * @param string $requestMethod request specified resource
    * @param string $requestUri request uniform resource identifier
-   * @return array matched route class & endpoint
+   * @return array matched route
    */
   public function handleRequest(string $requestMethod, string $requestUri): ?array
   {
@@ -61,9 +61,7 @@ class Router
       if ($this->matchRoute($route['path'], $requestUri) && $route['method'] === $requestMethod) {
         $parameters =  $this->extractParameters($route['path'], $requestUri);
         return [
-          'path' => $route['path'],
-          'class' => $route['handlerClass'],
-          'endpoint' => $route['handlerMethod'],
+          ...$route,
           'parameters' => $parameters,
         ];
       }
