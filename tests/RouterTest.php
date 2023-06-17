@@ -48,8 +48,8 @@ final class RouterTest extends TestCase
   {
     $route = $this->router->handleRequest('POST', '/photos');
     $this->assertSame('/photos', $route['path']);
-    $this->assertSame('BasicController', $route['class']);
-    $this->assertSame('create', $route['endpoint']);
+    $this->assertSame('BasicController', $route['handlerClass']);
+    $this->assertSame('create', $route['handlerMethod']);
     $this->assertSame([], $route['parameters']);
   }
 
