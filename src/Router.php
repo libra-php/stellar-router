@@ -55,15 +55,12 @@ class Router
    * @param string $requestUri request uniform resource identifier
    * @return array matched route
    */
-  public function handleRequest(string $requestMethod, string $requestUri): ?array
+  public function handleRequest(string $requestMethod, string $requestUri): Route
   {
     foreach ($this->routes as $route) {
       if ($this->matchRoute($route['path'], $requestUri) && $route['method'] === $requestMethod) {
         $parameters =  $this->extractParameters($route['path'], $requestUri);
-        return [
-          ...$route,
-          'parameters' => $parameters,
-        ];
+        return new Route($route['path'], $route['method'], $route['name'], $route['middleware'], $parameters, $route['handlerMethod'], $route['handlerClass']);
       }
     }
 

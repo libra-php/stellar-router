@@ -47,16 +47,16 @@ final class RouterTest extends TestCase
   public function testRouterResolvesCorrectRoute(): void
   {
     $route = $this->router->handleRequest('POST', '/photos');
-    $this->assertSame('/photos', $route['path']);
-    $this->assertSame('BasicController', $route['handlerClass']);
-    $this->assertSame('create', $route['handlerMethod']);
-    $this->assertSame([], $route['parameters']);
+    $this->assertSame('/photos', $route->getPath());
+    $this->assertSame('BasicController', $route->getHandlerClass());
+    $this->assertSame('create', $route->getHandlerMethod());
+    $this->assertSame([], $route->getParameters());
   }
 
   public function testRouterResolvesRoutePathWithParameters(): void
   {
     $route = $this->router->handleRequest('GET', '/photos/42/edit');
-    $this->assertSame('42', $route['parameters']['photo']);
+    $this->assertSame('42', $route->getParameters()['photo']);
   }
 
   public function testDuplicateRequestMethodRequestPathThrowsException(): void
