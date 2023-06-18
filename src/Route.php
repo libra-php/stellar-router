@@ -22,8 +22,15 @@ class Route
      * @param array<int,mixed> $middleware route middleware
      * @param array<int,mixed> $parameters
      */
-    public function __construct(string $path, string $method, ?string $name, array $middleware, array $parameters = [], ?string $handlerMethod = null, ?string $handlerClass = null)
-    {
+    public function __construct(
+        string $path,
+        string $method,
+        ?string $name,
+        array $middleware,
+        array $parameters = [],
+        ?string $handlerMethod = null,
+        ?string $handlerClass = null
+    ) {
         $this->path = $path;
         $this->method = $method;
         $this->name = $name;
