@@ -25,8 +25,8 @@ class Route
     public function __construct(
         string $path,
         string $method,
-        ?string $name,
-        array $middleware,
+        ?string $name = null,
+        array $middleware = [],
         array $parameters = [],
         ?string $handlerMethod = null,
         ?string $handlerClass = null
