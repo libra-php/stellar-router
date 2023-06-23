@@ -3,12 +3,18 @@
 namespace StellarRouter;
 
 use Exception;
+use Closure;
 use ReflectionClass;
 use ReflectionMethod;
 
 class Router
 {
     private array $routes = [];
+
+    public function hasRoutes(): bool
+    {
+        return !empty($this->routes);
+    }
 
     public function getRoutes(): array
     {
@@ -35,7 +41,7 @@ class Router
                 $route = $attribute->newInstance();
                 $duplicate = array_filter(
                     $this->routes,
-                    fn($r) => $r["path"] === $route->getPath() &&
+                    fn ($r) => $r["path"] === $route->getPath() &&
                         $r["method"] === $route->getMethod()
                 );
                 if (!empty($duplicate)) {
@@ -44,16 +50,33 @@ class Router
                     );
                 }
                 // Build array of routes
-                $this->routes[] = [
-                    "path" => $route->getPath(),
-                    "method" => $route->getMethod(),
-                    "name" => $route->getName(),
-                    "middleware" => $route->getMiddleware(),
-                    "handlerClass" => $handlerClass,
-                    "handlerMethod" => $reflectionMethod->getName(),
-                ];
+                $this->registerRoute(
+                    $route->getPath(),
+                    $route->getMethod(),
+                    $route->getName(),
+                    $route->getMiddleware(),
+                    $handlerClass,
+                    $reflectionMethod->getName()
+                );
             }
         }
+    }
+
+    /**
+     * Register a single route for your application
+     * @param array<int,mixed> $middleware
+     */
+    public function registerRoute(string $path, string $method, string $name, array $middleware, string $handlerClass, string $handlerMethod, mixed $payload = null): void
+    {
+        $this->routes[] = [
+            "path" => $path,
+            "method" => $method,
+            "name" => $name,
+            "middleware" => $middleware,
+            "handlerClass" => $handlerClass,
+            "handlerMethod" => $handlerMethod,
+            "payload" => $payload
+        ];
     }
 
     /**
@@ -81,8 +104,9 @@ class Router
                     $route["name"],
                     $route["middleware"],
                     $parameters,
+                    $route["handlerClass"],
                     $route["handlerMethod"],
-                    $route["handlerClass"]
+                    $route["payload"],
                 );
             }
         }

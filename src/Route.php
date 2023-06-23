@@ -3,6 +3,7 @@
 namespace StellarRouter;
 
 use Attribute;
+use Closure;
 
 #[Attribute(Attribute::TARGET_METHOD)]
 class Route
@@ -14,6 +15,7 @@ class Route
     private array $parameters;
     private ?string $handlerMethod;
     private ?string $handlerClass;
+    private mixed $payload;
 
     /**
      * @param string $path route path
@@ -28,16 +30,18 @@ class Route
         ?string $name = null,
         array $middleware = [],
         array $parameters = [],
+        ?string $handlerClass = null,
         ?string $handlerMethod = null,
-        ?string $handlerClass = null
+        mixed $payload = null
     ) {
         $this->path = $path;
         $this->method = $method;
         $this->name = $name;
         $this->middleware = $middleware;
         $this->parameters = $parameters;
-        $this->handlerMethod = $handlerMethod;
         $this->handlerClass = $handlerClass;
+        $this->handlerMethod = $handlerMethod;
+        $this->payload = $payload;
     }
 
     /**
@@ -101,5 +105,13 @@ class Route
     public function getHandlerClass(): ?string
     {
         return $this->handlerClass;
+    }
+
+    /**
+     * Get the route payload
+     */
+    public function getPayload(): mixed
+    {
+        return $this->payload;
     }
 }
