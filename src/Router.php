@@ -3,7 +3,6 @@
 namespace StellarRouter;
 
 use Exception;
-use Closure;
 use ReflectionClass;
 use ReflectionMethod;
 
