@@ -94,7 +94,7 @@ class Router
                 $this->matchRoute($route["path"], $requestUri) &&
                 $route["method"] === $requestMethod
             ) {
-                $router["parameters"] = $this->extractParameters(
+                $route["parameters"] = $this->extractParameters(
                     $route["path"],
                     $requestUri
                 );
