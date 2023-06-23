@@ -98,15 +98,9 @@ class Router
                     $route["path"],
                     $requestUri
                 );
+                $route["parameters"] = $parameters;
                 return new Route(
-                    $route["path"],
-                    $route["method"],
-                    $route["name"],
-                    $route["middleware"],
-                    $parameters,
-                    $route["handlerClass"],
-                    $route["handlerMethod"],
-                    $route["payload"],
+                    ...$route,
                 );
             }
         }

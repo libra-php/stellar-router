@@ -3,7 +3,6 @@
 namespace StellarRouter;
 
 use Attribute;
-use Closure;
 
 #[Attribute(Attribute::TARGET_METHOD)]
 class Route
@@ -12,10 +11,10 @@ class Route
     private string $method;
     private ?string $name;
     private array $middleware;
-    private array $parameters;
     private ?string $handlerMethod;
     private ?string $handlerClass;
     private mixed $payload;
+    private array $parameters;
 
     /**
      * @param string $path route path
@@ -29,19 +28,19 @@ class Route
         string $method,
         ?string $name = null,
         array $middleware = [],
-        array $parameters = [],
         ?string $handlerClass = null,
         ?string $handlerMethod = null,
-        mixed $payload = null
+        mixed $payload = null,
+        array $parameters = [],
     ) {
         $this->path = $path;
         $this->method = $method;
         $this->name = $name;
         $this->middleware = $middleware;
-        $this->parameters = $parameters;
         $this->handlerClass = $handlerClass;
         $this->handlerMethod = $handlerMethod;
         $this->payload = $payload;
+        $this->parameters = $parameters;
     }
 
     /**
