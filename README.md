@@ -30,8 +30,7 @@ WIP
 
 ### Usage
 
-WIP
-
+Here is a basic example of how this works:
 ```php
 use StellarRouter\{Router,Get,Post};
 
@@ -55,17 +54,17 @@ $router = new Router;
 $router->registerRoutes(BasicController::class);
 
 // Handle the request by method / request URI
-$test = $router->handleRequest('GET', '/photos/42/edit');
+$route = $router->handleRequest('GET', '/photos/42/edit');
 
 // Expose the class & target endpoint
-$class = new $test['class'];
-$endpoint = $test['endpoint'];
+$handlerClass = $route->getHandlerClass();
+$handlerMethod = $route->getHandlerMethod();
+$routeParameters = $route->getParameters();
 
 // Call the endpoint with arguments
-$class->$endpoint(...array_values($test['parameters']));
+$handlerResponse = $handlerClass->$handlerMethod(...$routeParameters);
 
-// Prints:
-// edit: 42
+print($handlerResponse); // Prints: 'edit: 42'
 ```
 
 🇨🇦 Made in Canada
