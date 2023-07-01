@@ -20,12 +20,11 @@
 - [ ] Grouped routes
 - [ ] Route prefixes
 - [ ] Sub-domains
-- [ ] Geoblocking routes
  
  
 ### Installation
 
-WIP
+`composer require libra-php/stellar-router`
 
 
 ### Usage
