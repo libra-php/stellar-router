@@ -21,11 +21,11 @@ class Router
     }
 
     /**
-     * Register routes for your application.
+     * Register class for your application.
      * @param string $handlerClass controller class with route attributes
      * @throws Exception
      */
-    public function registerRoutes(string $handlerClass): void
+    public function registerClass(string $handlerClass): void
     {
         $reflectionClass = new ReflectionClass($handlerClass);
         // Only allow public methods

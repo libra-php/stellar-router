@@ -36,7 +36,7 @@ final class RouterTest extends TestCase
   protected function setUp(): void
   {
     $this->router = new Router;
-    $this->router->registerRoutes(BasicController::class);
+    $this->router->registerClass(BasicController::class);
   }
 
   protected function tearDown(): void
@@ -62,6 +62,6 @@ final class RouterTest extends TestCase
   public function testDuplicateRequestMethodRequestPathThrowsException(): void
   {
     $this->expectException(Exception::class);
-    $this->router->registerRoutes(DuplicateController::class);
+    $this->router->registerClass(DuplicateController::class);
   }
 }

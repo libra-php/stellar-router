@@ -50,7 +50,7 @@ class BasicController
 
 // Register route controller class or classes
 $router = new Router;
-$router->registerRoutes(BasicController::class);
+$router->registerClass(BasicController::class);
 
 // Handle the request by method / request URI
 $route = $router->handleRequest('GET', '/photos/42/edit');
