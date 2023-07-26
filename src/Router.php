@@ -21,7 +21,7 @@ class Router
     }
 
     /**
-     * Register class for your application.
+     * Register routes for your application.
      * @param string $handlerClass controller class with route attributes
      * @throws Exception
      */
@@ -37,26 +37,24 @@ class Router
             $attributes = $reflectionMethod->getAttributes();
 
             foreach ($attributes as $attribute) {
-                $route = $attribute->newInstance();
+                $attribute_route = $attribute->newInstance();
+
                 $duplicate = array_filter(
                     $this->routes,
-                    fn ($r) => $r["path"] === $route->getPath() &&
-                        $r["method"] === $route->getMethod()
+                    fn ($route) => $route->getPath() === $attribute_route->getPath() &&
+                        $route->getMethod() === $attribute_route->getMethod()
                 );
                 if (!empty($duplicate)) {
                     throw new Exception(
-                        "Duplicate route defined! path: '{$route->getPath()}' method: '{$route->getMethod()}'"
+                        "Duplicate route defined! path: '{$attribute_route->getPath()}' method: '{$attribute_route->getMethod()}'"
                     );
                 }
+
+                $attribute_route->setHandlerClass($handlerClass);
+                $attribute_route->setHandlerMethod($reflectionMethod->getName());
+
                 // Build array of routes
-                $this->registerRoute(
-                    $route->getPath(),
-                    $route->getMethod(),
-                    $route->getName(),
-                    $route->getMiddleware(),
-                    $handlerClass,
-                    $reflectionMethod->getName()
-                );
+                $this->registerRoute($attribute_route);
             }
         }
     }
@@ -65,17 +63,9 @@ class Router
      * Register a single route for your application
      * @param array<int,mixed> $middleware
      */
-    public function registerRoute(string $path, string $method, string $name, array $middleware, string $handlerClass, string $handlerMethod, mixed $payload = null): void
+    public function registerRoute(Route $route): void
     {
-        $this->routes[] = [
-            "path" => $path,
-            "method" => $method,
-            "name" => $name,
-            "middleware" => $middleware,
-            "handlerClass" => $handlerClass,
-            "handlerMethod" => $handlerMethod,
-            "payload" => $payload
-        ];
+        $this->routes[] = $route;
     }
 
     /**
@@ -90,19 +80,16 @@ class Router
     ): ?Route {
         foreach ($this->routes as $route) {
             if (
-                $this->matchRoute($route["path"], $requestUri) &&
-                $route["method"] === $requestMethod
+                $this->matchRoute($route->getPath(), $requestUri) &&
+                $route->getMethod() === $requestMethod
             ) {
-                $route["parameters"] = $this->extractParameters(
-                    $route["path"],
+                $route->setParameters($this->extractParameters(
+                    $route->getPath(),
                     $requestUri
-                );
-                return new Route(
-                    ...$route,
-                );
+                ));
+                return $route;
             }
         }
-
         return null;
     }
 

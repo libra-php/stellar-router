@@ -113,4 +113,28 @@ class Route
     {
         return $this->payload;
     }
+
+    /**
+     * Set the route parameters
+     */
+    public function setParameters(array $parameters): void
+    {
+        $this->parameters = $parameters;
+    }
+
+    /**
+     * Set the route parameters
+     */
+    public function setHandlerClass(string $class_name): void
+    {
+        $this->handlerClass = $class_name;
+    }
+
+    /**
+     * Set the route parameters
+     */
+    public function setHandlerMethod(string $method_name): void
+    {
+        $this->handlerMethod = $method_name;
+    }
 }
