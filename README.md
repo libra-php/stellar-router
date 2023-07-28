@@ -11,14 +11,14 @@
 
 
 ### Features
-- [x] Easy to use
 - [x] Basic HTTP routing (GET, POST, PUT, PATCH, DELETE)
-- [x] Named routes
 - [x] Bind route middleware
+- [x] Easy to use
+- [x] Grouped routes
+- [x] Named routes
 - [x] Route parameters
+- [x] Route prefixes
 - [ ] Optional route parameters
-- [ ] Grouped routes
-- [ ] Route prefixes
 - [ ] Sub-domains
  
  
@@ -33,6 +33,7 @@ Here is a basic example of how this works:
 ```php
 use StellarRouter\{Router,Get,Post};
 
+#[Group(prefix: "/basic", ["auth"])]
 class BasicController
 {
     #[Get('/photos/{photo}/edit', 'photos.edit')]
@@ -53,7 +54,10 @@ $router = new Router;
 $router->registerClass(BasicController::class);
 
 // Handle the request by method / request URI
-$route = $router->handleRequest('GET', '/photos/42/edit');
+// Note: we support grouping of routes
+// Both BasicController routes are prefixed with '/basic'
+// Both BasicController routes have 'auth' middleware attached
+$route = $router->handleRequest('GET', '/basic/photos/42/edit');
 
 // Expose the class & target endpoint
 $handlerClass = $route->getHandlerClass();
