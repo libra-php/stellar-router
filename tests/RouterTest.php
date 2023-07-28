@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use StellarRouter\{Get,Post,Delete,Put,Patch,Router};
+use StellarRouter\Group;
 
 final class RouterTest extends TestCase
 {
@@ -20,10 +21,23 @@ final class RouterTest extends TestCase
     $this->router = null;
   }
 
+  public function test_route_prefix(): void
+  {
+    // Since this has a group prefix, the route should be /basic/photos
+    $route = $this->router->handleRequest('GET', '/basic/photos');
+    $this->assertSame('/basic/photos', $route->getPath());
+  }
+
+  public function test_route_group_middleware(): void
+  {
+    $route = $this->router->handleRequest('GET', '/basic/photos');
+    $this->assertSame(['new', 'test'], $route->getMiddleware());
+  }
+
   public function test_router_resolves_correct_route(): void
   {
-    $route = $this->router->handleRequest('POST', '/photos');
-    $this->assertSame('/photos', $route->getPath());
+    $route = $this->router->handleRequest('POST', '/basic/photos');
+    $this->assertSame('/basic/photos', $route->getPath());
     $this->assertSame('BasicController', $route->getHandlerClass());
     $this->assertSame('create', $route->getHandlerMethod());
     $this->assertSame([], $route->getParameters());
@@ -31,7 +45,7 @@ final class RouterTest extends TestCase
 
   public function test_route_with_parameters(): void
   {
-    $route = $this->router->handleRequest('GET', '/photos/42/edit');
+    $route = $this->router->handleRequest('GET', '/basic/photos/42/edit');
     $this->assertSame('42', $route->getParameters()['photo']);
   }
 
@@ -42,8 +56,15 @@ final class RouterTest extends TestCase
   }
 }
 
+#[Group(prefix: "/basic", middleware: ['new'])]
 final class BasicController
 {
+    #[Get('/photos', 'photos.index', ['test'])]
+    public function index(): void
+    {
+
+    }
+
     #[Get('/photos/{photo}/edit', 'photos.edit')]
     public function edit($photo): void 
     {
@@ -59,7 +80,7 @@ final class BasicController
 
 final class DuplicateController 
 {
-  #[Get('/photos/{photo}/edit', 'photos.edit')]
+  #[Get('/basic/photos/{photo}/edit', 'photos.edit')]
   public function edit($photo): void 
   {
     print("edit: $photo");

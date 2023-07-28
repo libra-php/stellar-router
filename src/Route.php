@@ -7,15 +7,6 @@ use Attribute;
 #[Attribute(Attribute::TARGET_METHOD)]
 class Route
 {
-    private string $path;
-    private string $method;
-    private ?string $name;
-    private array $middleware;
-    private ?string $handlerMethod;
-    private ?string $handlerClass;
-    private mixed $payload;
-    private array $parameters;
-
     /**
      * @param string $path route path
      * @param string $method route method
@@ -24,24 +15,15 @@ class Route
      * @param array<int,mixed> $parameters
      */
     public function __construct(
-        string $path,
-        string $method,
-        ?string $name = null,
-        array $middleware = [],
-        ?string $handlerClass = null,
-        ?string $handlerMethod = null,
-        mixed $payload = null,
-        array $parameters = [],
-    ) {
-        $this->path = $path;
-        $this->method = $method;
-        $this->name = $name;
-        $this->middleware = $middleware;
-        $this->handlerClass = $handlerClass;
-        $this->handlerMethod = $handlerMethod;
-        $this->payload = $payload;
-        $this->parameters = $parameters;
-    }
+        private string $path,
+        private string $method,
+        private ?string $name = null,
+        private array $middleware = [],
+        private ?string $handlerClass = null,
+        private ?string $handlerMethod = null,
+        private mixed $payload = null,
+        private array $parameters = [],
+    ) {}
 
     /**
      * Get the route name
@@ -115,7 +97,33 @@ class Route
     }
 
     /**
+     * Set the route path
+     */
+    public function setPath(string $path): void
+    {
+        $this->path = $path;
+    }
+
+    /**
+     * Set the route name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * Set the route middleware array
+     * @param array<int,mixed> $middleware
+     */
+    public function setMiddleware(array $middleware): void
+    {
+        $this->middleware = $middleware;
+    }
+
+    /**
      * Set the route parameters
+     * @param array<int,mixed> $parameters
      */
     public function setParameters(array $parameters): void
     {

@@ -27,16 +27,29 @@ class Router
      */
     public function registerClass(string $handlerClass): void
     {
+        print($handlerClass);
         $reflectionClass = new ReflectionClass($handlerClass);
+
+        $classAttributes = $reflectionClass->getAttributes();
+
+        // Filter the attributes to get the one with the Group attribute
+        $groupParams = null;
+        foreach ($classAttributes as $attribute) {
+            if ($attribute->getName() === 'StellarRouter\Group') {
+                $groupParams = $attribute->getArguments();
+                break;
+            }
+        }
+
         // Only allow public methods
         $reflectionMethods = $reflectionClass->getMethods(
             ReflectionMethod::IS_PUBLIC
         );
 
         foreach ($reflectionMethods as $reflectionMethod) {
-            $attributes = $reflectionMethod->getAttributes();
+            $methodAttributes = $reflectionMethod->getAttributes();
 
-            foreach ($attributes as $attribute) {
+            foreach ($methodAttributes as $attribute) {
                 $attribute_route = $attribute->newInstance();
 
                 $duplicate = array_filter(
@@ -52,6 +65,14 @@ class Router
 
                 $attribute_route->setHandlerClass($handlerClass);
                 $attribute_route->setHandlerMethod($reflectionMethod->getName());
+
+                // This route is grouped
+                if (!is_null($groupParams)) {
+                    // Set grouped prefix
+                    $attribute_route->setPath($groupParams['prefix'] . $attribute_route->getPath()) ;
+                    $merged_middleware = array_merge($groupParams['middleware'] ?? [], $attribute_route->getMiddleware() ?? []);
+                    $attribute_route->setMiddleware($merged_middleware);
+                }
 
                 // Build array of routes
                 $this->registerRoute($attribute_route);
