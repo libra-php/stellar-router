@@ -27,7 +27,6 @@ class Router
      */
     public function registerClass(string $handlerClass): void
     {
-        print($handlerClass);
         $reflectionClass = new ReflectionClass($handlerClass);
 
         $classAttributes = $reflectionClass->getAttributes();
