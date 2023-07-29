@@ -49,14 +49,20 @@ class BasicController
     }
 }
 
-// Register route controller class or classes
+// Register route controller class
 $router = new Router;
+// Route attributes will be derived from controller 
+// class (group) or methods (http methods)
 $router->registerClass(BasicController::class);
+// You can also add a route manually using the registerRoute 
+// method if you don't want to use attributes
+// eg) $route->registerRoute(new Route("/test", "GET"));
 
 // Handle the request by method / request URI
-// Note: we support grouping of routes
-// Both BasicController routes are prefixed with '/basic'
-// Both BasicController routes have 'auth' middleware attached
+// **Note:** we support grouping of routes via attributes
+// Both BasicController routes are: 
+//   prefixed with '/basic'
+//   have 'auth' middleware attached
 $route = $router->handleRequest('GET', '/basic/photos/42/edit');
 
 // Expose the class & target endpoint

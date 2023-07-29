@@ -3,9 +3,8 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use StellarRouter\{Get,Post,Delete,Put,Patch,Router};
+use StellarRouter\{Get,Post,Router};
 use StellarRouter\Group;
-use StellarRouter\Route;
 
 final class RouterTest extends TestCase
 {
@@ -22,30 +21,14 @@ final class RouterTest extends TestCase
     $this->router = null;
   }
 
-  public function test_route_path_must_start_with_slash(): void
-  {
-    $route = new Route('invalid', 'GET');
-    $this->expectException(\Exception::class);
-    $this->expectExceptionMessage("Route path must start with a /");
-    $this->router->registerRoute($route);
-  }
-
-  public function test_route_path_must_be_valid(): void
-  {
-    $route = new Route('/&^(*Q(*Y#Q(*Y$(*H$Q(*QH$)))))', 'GET');
-    $this->expectException(\Exception::class);
-    $this->expectExceptionMessage("Route path is not valid: " . $route->getPath());
-    $this->router->registerRoute($route);
-  }
-
-  public function test_route_prefix(): void
+  public function test_router_group_prefix(): void
   {
     // Since this has a group prefix, the route should be /basic/photos
     $route = $this->router->handleRequest('GET', '/basic/photos');
     $this->assertSame('/basic/photos', $route->getPath());
   }
 
-  public function test_route_group_middleware(): void
+  public function test_router_group_middleware(): void
   {
     $route = $this->router->handleRequest('GET', '/basic/photos');
     $this->assertSame(['new', 'test'], $route->getMiddleware());

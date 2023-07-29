@@ -3,6 +3,7 @@
 namespace StellarRouter;
 
 use Attribute;
+use Exception;
 
 #[Attribute(Attribute::TARGET_METHOD)]
 class Route
@@ -23,7 +24,21 @@ class Route
         private ?string $handlerMethod = null,
         private mixed $payload = null,
         private array $parameters = [],
-    ) {}
+    ) {
+        $this->validatePath();
+    }
+
+    public function validatePath(): void
+    {
+        $uri = $this->getPath();
+        $pattern = '/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([{}\/\w.-]*)*\/?$/';
+        $url = "http://www.example.com".$uri; // mocked with example.com for filter_var
+        if (substr($uri, 0, 1) !== "/") {
+            throw new Exception("Route path must start with a /");
+        } else if (!preg_match($pattern, $url) || !filter_var($url, FILTER_VALIDATE_URL)) {
+            throw new Exception("Route path is not valid: " . $uri);
+        } 
+    }
 
     /**
      * Get the route name
