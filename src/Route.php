@@ -25,18 +25,18 @@ class Route
         private mixed $payload = null,
         private array $parameters = [],
     ) {
-        $this->validatePath();
+        $path = $this->getPath();
+        self::validatePath($path);
     }
 
-    public function validatePath(): void
+    public static function validatePath(string $path): void
     {
-        $uri = $this->getPath();
         $pattern = '/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([{}\/\w.-]*)*\/?$/';
-        $url = "http://www.example.com".$uri; // mocked with example.com for filter_var
-        if (substr($uri, 0, 1) !== "/") {
-            throw new Exception("Route path must start with a /");
+        $url = "http://www.example.com".$path; // uri mocked with example.com for filter_var
+        if (substr($path, 0, 1) !== "/") {
+            throw new Exception("Path must start with a /");
         } else if (!preg_match($pattern, $url) || !filter_var($url, FILTER_VALIDATE_URL)) {
-            throw new Exception("Route path is not valid: " . $uri);
+            throw new Exception("Path is not valid: " . $path);
         } 
     }
 
@@ -116,6 +116,7 @@ class Route
      */
     public function setPath(string $path): void
     {
+        self::validatePath($path);
         $this->path = $path;
     }
 

@@ -13,7 +13,9 @@ class Group
     public function __construct(
     private string $prefix,
     private array $middleware = [],
-  ) {} 
+  ) {
+    Route::validatePath($prefix);
+  } 
 
     /**
      * Get the route group prefix
