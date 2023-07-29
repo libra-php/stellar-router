@@ -33,7 +33,7 @@ Here is a basic example of how this works 🚀
 use StellarRouter\{Router,Get,Post,Group};
 
 #[Group(prefix: "/basic", middleware: ["auth"])]
-class BasicController
+class PhotoController
 {
     #[Get('/photos/{photo}/edit', 'photos.edit')]
     public function edit($photo) 
@@ -52,14 +52,14 @@ class BasicController
 $router = new Router;
 // Route attributes will be derived from controller 
 // class (group) or methods (http methods)
-$router->registerClass(BasicController::class);
+$router->registerClass(PhotoController::class);
 // You can also add a route manually using the registerRoute 
 // method if you don't want to use attributes
 // eg) $router->registerRoute(new Route("/test", "GET"));
 
 // Handle the request by method / request URI
 // Note: we support grouping of routes via attributes
-// Both BasicController routes are: 
+// Both PhotoController routes are: 
 //   prefixed with '/basic'
 //   have 'auth' middleware attached
 $route = $router->handleRequest('GET', '/basic/photos/42/edit');
@@ -69,7 +69,7 @@ $handlerClass = $route->getHandlerClass();
 $handlerMethod = $route->getHandlerMethod();
 $routeParameters = $route->getParameters();
 
-// The class is BasicController
+// The class is PhotoController
 $controller = new $handlerClass();
 
 // Call the endpoint edit with argument '42', the photo id
