@@ -30,7 +30,7 @@
 Here is a basic example of how this works 🚀
 
 ```php
-use StellarRouter\{Router,Get,Post};
+use StellarRouter\{Router,Get,Post,Group};
 
 #[Group(prefix: "/basic", middleware: ["auth"])]
 class BasicController
