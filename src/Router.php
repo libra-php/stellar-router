@@ -147,6 +147,7 @@ class Router
      */
     private function matchRoute(string $routePath, string $requestUri): bool
     {
+        $requestUri = strtok($requestUri, '?');
         $routePath = trim($routePath, "/");
         $requestUri = trim($requestUri, "/");
 

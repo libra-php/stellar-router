@@ -43,7 +43,7 @@ final class RouterTest extends TestCase
     $this->assertSame([], $route->getParameters());
   }
 
-  public function test_route_with_parameters(): void
+  public function test_router_with_parameters(): void
   {
     $route = $this->router->handleRequest('GET', '/basic/photos/42/edit');
     $this->assertSame('42', $route->getParameters()['photo']);
@@ -53,6 +53,12 @@ final class RouterTest extends TestCase
   {
     $this->expectException(Exception::class);
     $this->router->registerClass(DuplicateController::class);
+  }
+
+  public function test_router_resolves_url_query_params(): void
+  {
+    $route = $this->router->handleRequest('GET', '/basic/photos?test=haha');
+    $this->assertSame('/basic/photos', $route->getPath());
   }
 }
 
