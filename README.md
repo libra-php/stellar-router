@@ -55,7 +55,7 @@ $router = new Router;
 $router->registerClass(BasicController::class);
 // You can also add a route manually using the registerRoute 
 // method if you don't want to use attributes
-// eg) $route->registerRoute(new Route("/test", "GET"));
+// eg) $router->registerRoute(new Route("/test", "GET"));
 
 // Handle the request by method / request URI
 // Note: we support grouping of routes via attributes
