@@ -59,7 +59,7 @@ $router->registerClass(BasicController::class);
 // eg) $route->registerRoute(new Route("/test", "GET"));
 
 // Handle the request by method / request URI
-// **Note:** we support grouping of routes via attributes
+// Note: we support grouping of routes via attributes
 // Both BasicController routes are: 
 //   prefixed with '/basic'
 //   have 'auth' middleware attached
