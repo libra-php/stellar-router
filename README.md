@@ -5,8 +5,6 @@
 
 🌟 Why settle for an ordinary router when you can have a celestial navigator? StellarRouter will guide your PHP applications through the vast universe of routes with utmost precision and cosmic speed.
 
-🚀 Join the StellarRouter Revolution today and witness your PHP applications reach for the stars! Let's navigate the routing galaxy together! 
-
 👷 *Currently under development*
 
 
@@ -29,7 +27,8 @@
 
 ### Usage
 
-Here is a basic example of how this works:
+Here is a basic example of how this works 🚀
+
 ```php
 use StellarRouter\{Router,Get,Post};
 
@@ -70,10 +69,12 @@ $handlerClass = $route->getHandlerClass();
 $handlerMethod = $route->getHandlerMethod();
 $routeParameters = $route->getParameters();
 
-// Call the endpoint with arguments
-$handlerResponse = $handlerClass->$handlerMethod(...$routeParameters);
+$controller = new $handlerClass();
 
-print($handlerResponse); // Prints: 'edit: 42'
+// Call the endpoint with arguments
+$response = $controller->$handlerMethod(...$routeParameters);
+
+print($response); // Prints: 'edit: 42'
 ```
 
 🇨🇦 Made in Canada
