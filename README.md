@@ -38,13 +38,13 @@ class BasicController
     #[Get('/photos/{photo}/edit', 'photos.edit')]
     public function edit($photo) 
     {
-        print("edit: $photo");
+        return "edit: $photo";
     }
 
     #[Post('/photos', 'photos.create')]
     public function create() 
     {
-        print("create");
+        return ["success" => true];
     }
 }
 
