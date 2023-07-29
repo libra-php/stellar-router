@@ -32,7 +32,7 @@ Here is a basic example of how this works 🚀
 ```php
 use StellarRouter\{Router,Get,Post};
 
-#[Group(prefix: "/basic", ["auth"])]
+#[Group(prefix: "/basic", middleware: ["auth"])]
 class BasicController
 {
     #[Get('/photos/{photo}/edit', 'photos.edit')]
@@ -69,9 +69,10 @@ $handlerClass = $route->getHandlerClass();
 $handlerMethod = $route->getHandlerMethod();
 $routeParameters = $route->getParameters();
 
+// The class is BasicController
 $controller = new $handlerClass();
 
-// Call the endpoint with arguments
+// Call the endpoint edit with argument '42', the photo id
 $response = $controller->$handlerMethod(...$routeParameters);
 
 print($response); // Prints: 'edit: 42'
