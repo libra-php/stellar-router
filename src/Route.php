@@ -26,7 +26,9 @@ class Route
         private array $parameters = [],
     ) {
         $path = $this->getPath();
+        $method = $this->getMethod();
         self::validatePath($path);
+        self::validateMethod($method);
     }
 
     public static function validatePath(string $path): void
@@ -38,6 +40,24 @@ class Route
         } else if (!preg_match($pattern, $url) || !filter_var($url, FILTER_VALIDATE_URL)) {
             throw new Exception("Path is not valid: " . $path);
         } 
+    }
+
+    public static function validateMethod(string $method): void
+    {
+        $valid_methods = [
+            // "CONNECT",
+            // "HEAD",
+            // "OPTIONS",
+            // "TRACE",
+            "GET",
+            "POST",
+            "PUT",
+            "PATCH",
+            "DELETE",
+        ];
+        if (!in_array($method, $valid_methods)) {
+            throw new Exception("Method is not valid: " . $method);
+        }
     }
 
     /**
@@ -118,6 +138,15 @@ class Route
     {
         self::validatePath($path);
         $this->path = $path;
+    }
+
+    /**
+     * Set the route method
+     */
+    public function setMethod(string $method): void
+    {
+        self::validateMethod($method);
+        $this->method = $method;
     }
 
     /**
