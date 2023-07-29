@@ -32,7 +32,7 @@ Here is a basic example of how this works 🚀
 ```php
 use StellarRouter\{Router,Get,Post,Group};
 
-#[Group(prefix: "/basic", middleware: ["auth"])]
+#[Group(prefix: "/v1", middleware: ["auth"])]
 class PhotoController
 {
     #[Get('/photos/{photo}/edit', 'photos.edit')]
@@ -60,9 +60,9 @@ $router->registerClass(PhotoController::class);
 // Handle the request by method / request URI
 // Note: we support grouping of routes via attributes
 // Both PhotoController routes are: 
-//   prefixed with '/basic'
+//   prefixed with '/v1'
 //   have 'auth' middleware attached
-$route = $router->handleRequest('GET', '/basic/photos/42/edit');
+$route = $router->handleRequest('GET', '/v1/photos/42/edit');
 
 // Expose the class & target endpoint
 $handlerClass = $route->getHandlerClass();
