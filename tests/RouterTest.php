@@ -60,6 +60,24 @@ final class RouterTest extends TestCase
     $route = $this->router->handleRequest('GET', '/basic/photos?test=haha');
     $this->assertSame('/basic/photos', $route->getPath());
   }
+  
+  public function  test_router_resolves_url_query_params_with_path_params(): void
+  {
+    $route = $this->router->handleRequest('GET', '/basic/photos/42/edit?test=haha');
+    $this->assertSame('42', $route->getParameters()['photo']);
+  }
+
+  public function test_router_resolves_url_query_params_with_path_params_and_group_prefix(): void
+  {
+    $route = $this->router->handleRequest('GET', '/basic/photos/42/edit?test=haha');
+    $this->assertSame('42', $route->getParameters()['photo']);
+  }
+
+  public function test_router_find_route_by_name(): void
+  {
+    $route = $this->router->findRouteByName('photos.edit');
+    $this->assertSame('/basic/photos/{photo}/edit', $route->getPath());
+  }
 }
 
 #[Group(prefix: "/basic", middleware: ['new'])]

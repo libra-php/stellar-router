@@ -8,16 +8,40 @@ use ReflectionMethod;
 
 class Router
 {
+    /** @var array<int,Route> $routes */
     private array $routes = [];
 
+    /**
+     * Return true if there are routes registered
+     * @return bool
+     */
     public function hasRoutes(): bool
     {
         return !empty($this->routes);
     }
 
+    /**
+     * Return array of routes
+     * @return array
+     */
     public function getRoutes(): array
     {
         return $this->routes;
+    }
+
+    /**
+     * Return route by name
+     * @param string $name route name
+     * @return ?Route
+     */
+    public function findRouteByName(string $name): ?Route
+    {
+        foreach ($this->routes as $route) {
+            if ($route->getName() === $name) {
+                return $route;
+            }
+        }
+        return null;
     }
 
     /**
@@ -68,7 +92,7 @@ class Router
                 // This route is grouped
                 if (!is_null($groupParams)) {
                     // Set grouped prefix
-                    $attribute_route->setPath($groupParams['prefix'] . $attribute_route->getPath()) ;
+                    $attribute_route->setPath($groupParams['prefix'] . $attribute_route->getPath());
                     $merged_middleware = array_merge($groupParams['middleware'] ?? [], $attribute_route->getMiddleware() ?? []);
                     $attribute_route->setMiddleware($merged_middleware);
                 }
