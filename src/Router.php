@@ -6,18 +6,50 @@ use Exception;
 use ReflectionClass;
 use ReflectionMethod;
 
+/**
+ * Router class
+ * @package StellarRouter
+ */
 class Router
 {
+    /**
+     * @var array $routes array of registered routes
+     */
     private array $routes = [];
 
+    /**
+     * Are there any registered routes?
+     * @return bool true if there are registered routes, false otherwise
+     */
     public function hasRoutes(): bool
     {
         return !empty($this->routes);
     }
 
+    /**
+     * Get all registered routes.
+     * @return array all registered routes
+     */
     public function getRoutes(): array
     {
         return $this->routes;
+    }
+
+    /**
+     * Check if a route is already registered.
+     * @param Route $route route to check
+     */
+    private function hasRoute(Route $route): bool
+    {
+        foreach ($this->routes as $registeredRoute) {
+            if (
+                $registeredRoute->getPath() === $route->getPath() &&
+                $registeredRoute->getMethod() === $route->getMethod()
+            ) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -51,24 +83,13 @@ class Router
             foreach ($methodAttributes as $attribute) {
                 $attribute_route = $attribute->newInstance();
 
-                $duplicate = array_filter(
-                    $this->routes,
-                    fn ($route) => $route->getPath() === $attribute_route->getPath() &&
-                        $route->getMethod() === $attribute_route->getMethod()
-                );
-                if (!empty($duplicate)) {
-                    throw new Exception(
-                        "Duplicate route defined! path: '{$attribute_route->getPath()}' method: '{$attribute_route->getMethod()}'"
-                    );
-                }
-
                 $attribute_route->setHandlerClass($handlerClass);
                 $attribute_route->setHandlerMethod($reflectionMethod->getName());
 
                 // This route is grouped
                 if (!is_null($groupParams)) {
                     // Set grouped prefix
-                    $attribute_route->setPath($groupParams['prefix'] . $attribute_route->getPath()) ;
+                    $attribute_route->setPath($groupParams['prefix'] . $attribute_route->getPath());
                     $merged_middleware = array_merge($groupParams['middleware'] ?? [], $attribute_route->getMiddleware() ?? []);
                     $attribute_route->setMiddleware($merged_middleware);
                 }
@@ -81,10 +102,15 @@ class Router
 
     /**
      * Register a single route for your application
-     * @param array<int,mixed> $middleware
+     * @param Route $route route to register
      */
     public function registerRoute(Route $route): void
     {
+        if ($this->hasRoute($route)) {
+            throw new Exception(
+                "Duplicate route defined! path: '{$route->getPath()}' method: '{$route->getMethod()}'"
+            );
+        }
         $this->routes[] = $route;
     }
 

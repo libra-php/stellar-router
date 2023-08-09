@@ -4,6 +4,10 @@ namespace StellarRouter;
 
 use Attribute;
 
+/**
+ * Route attribute
+ * @package StellarRouter
+ */
 #[Attribute(Attribute::TARGET_METHOD)]
 class Delete extends Route
 {

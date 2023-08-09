@@ -5,6 +5,10 @@ namespace StellarRouter;
 use Attribute;
 use Exception;
 
+/**
+ * Route attribute
+ * @package StellarRouter
+ */
 #[Attribute(Attribute::TARGET_METHOD)]
 class Route
 {
@@ -31,6 +35,10 @@ class Route
         self::validateMethod($method);
     }
 
+    /**
+     * Validate a route path.
+     * @param string $path route path
+     */
     public static function validatePath(string $path): void
     {
         $pattern = '/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([{}\/\w.-]*)*\/?$/';
@@ -42,6 +50,10 @@ class Route
         } 
     }
 
+    /**
+     * Validate a route method.
+     * @param string $method route method
+     */
     public static function validateMethod(string $method): void
     {
         $valid_methods = [
