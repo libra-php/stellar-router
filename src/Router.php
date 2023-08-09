@@ -53,6 +53,21 @@ class Router
     }
 
     /**
+     * Return route by name
+     * @param string $name route name
+     * @return ?Route
+     */
+    public function findRouteByName(string $name): ?Route
+    {
+        foreach ($this->routes as $route) {
+            if ($route->getName() === $name) {
+                return $route;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Register routes for your application.
      * @param string $handlerClass controller class with route attributes
      * @throws Exception
