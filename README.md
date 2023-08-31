@@ -81,5 +81,3 @@ print($response); // Output: 'edit: 42'
 
 StellarRouter is open-source software licensed under the [MIT License](https://opensource.org/licenses/MIT).
 
-
-🇨🇦Proudly made in Canada
