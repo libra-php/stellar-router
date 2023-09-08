@@ -104,9 +104,13 @@ class Router
                 // This route is grouped
                 if (!is_null($groupParams)) {
                     // Set grouped prefix
-                    $attribute_route->setPath($groupParams['prefix'] . $attribute_route->getPath());
-                    $merged_middleware = array_merge($groupParams['middleware'] ?? [], $attribute_route->getMiddleware() ?? []);
-                    $attribute_route->setMiddleware($merged_middleware);
+                    if (isset($groupParams['prefix'])) {
+                        $attribute_route->setPath($groupParams['prefix'] . $attribute_route->getPath());
+                    }
+                    if (isset($groupParams['middleware'])) {
+                        $merged_middleware = array_merge($groupParams['middleware'] ?? [], $attribute_route->getMiddleware() ?? []);
+                        $attribute_route->setMiddleware($merged_middleware);
+                    }
                 }
 
                 // Build array of routes
