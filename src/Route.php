@@ -45,9 +45,9 @@ class Route
         $url = "http://www.example.com".$path; // uri mocked with example.com for filter_var
         if (substr($path, 0, 1) !== "/") {
             throw new Exception("Path must start with a /");
-        } else if (!preg_match($pattern, $url) || !filter_var($url, FILTER_VALIDATE_URL)) {
+        } else if (strpos($path, '(') === false && (!preg_match($pattern, $url) || !filter_var($url, FILTER_VALIDATE_URL))) {
             throw new Exception("Path is not valid: " . $path);
-        } 
+        }
     }
 
     /**

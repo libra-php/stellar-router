@@ -60,7 +60,7 @@ final class RouterTest extends TestCase
     $route = $this->router->handleRequest('GET', '/basic/photos?test=haha');
     $this->assertSame('/basic/photos', $route->getPath());
   }
-  
+
   public function  test_router_resolves_url_query_params_with_path_params(): void
   {
     $route = $this->router->handleRequest('GET', '/basic/photos/42/edit?test=haha');
@@ -78,6 +78,19 @@ final class RouterTest extends TestCase
     $route = $this->router->findRouteByName('photos.edit');
     $this->assertSame('/basic/photos/{photo}/edit', $route->getPath());
   }
+
+  public function test_routr_resolves_regex_routes(): void
+  {
+    $route = $this->router->handleRequest('GET', '/basic/donut');
+    $this->assertSame('/basic/(donut|happy)', $route->getPath());
+    $route = $this->router->handleRequest('GET', '/basic/happy');
+    $this->assertSame('/basic/(donut|happy)', $route->getPath());
+
+    $route = $this->router->handleRequest('GET', '/basic/Forever');
+    $this->assertSame('/basic/([Ff]orever)', $route->getPath());
+    $route = $this->router->handleRequest('GET', '/basic/forever');
+    $this->assertSame('/basic/([Ff]orever)', $route->getPath());
+  }
 }
 
 #[Group(prefix: "/basic", middleware: ['new'])]
@@ -90,22 +103,35 @@ final class BasicController
     }
 
     #[Get('/photos/{photo}/edit', 'photos.edit')]
-    public function edit($photo): void 
+    public function edit($photo): void
     {
         print("edit: $photo");
     }
 
     #[Post('/photos', 'photos.create')]
-    public function create(): void 
+    public function create(): void
     {
         print("create");
     }
+
+    #[Get('/(donut|happy)', 'test.regex')]
+    public function test(): void
+    {
+      print('nice');
+    }
+
+    #[Get('/([Ff]orever)', 'test.forever')]
+    public function forever(): void
+    {
+      print('nice');
+    }
+
 }
 
-final class DuplicateController 
+final class DuplicateController
 {
   #[Get('/basic/photos/{photo}/edit', 'photos.edit')]
-  public function edit($photo): void 
+  public function edit($photo): void
   {
     print("edit: $photo");
   }

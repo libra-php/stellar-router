@@ -38,13 +38,20 @@ use StellarRouter\{Router, Get, Post, Group};
 class PhotoController
 {
     #[Get('/photos/{photo}/edit', 'photos.edit')]
-    public function edit($photo) 
+    public function edit($photo)
     {
         return "edit: $photo";
     }
 
     #[Post('/photos', 'photos.create')]
-    public function create() 
+    public function create()
+    {
+        return ["success" => true];
+    }
+
+    # Note: you can also write regex route paths (parenthesis required)
+    #[Get('/(mom|dad)', 'photos.parents')]
+    public function parents(): void
     {
         return ["success" => true];
     }

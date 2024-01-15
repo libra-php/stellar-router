@@ -196,6 +196,11 @@ class Router
         $routePath = trim($routePath, "/");
         $requestUri = trim($requestUri, "/");
 
+        // Check if the route path is a regular expression
+        if (strpos($routePath, '(') !== false) {
+            return preg_match('#^' . $routePath . '$#', $requestUri);
+        }
+
         $routeSegments = explode("/", $routePath);
         $requestSegments = explode("/", $requestUri);
 
