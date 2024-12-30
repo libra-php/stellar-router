@@ -105,6 +105,7 @@ class Router
                 if (!is_null($groupParams)) {
                     // Set grouped prefix
                     if (isset($groupParams['prefix'])) {
+                        $attribute_route->setPrefix($groupParams['prefix']);
                         $attribute_route->setPath($groupParams['prefix'] . $attribute_route->getPath());
                     }
                     if (isset($groupParams['middleware'])) {

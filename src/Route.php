@@ -12,6 +12,7 @@ use Exception;
 #[Attribute(Attribute::TARGET_METHOD)]
 class Route
 {
+    private string $prefix = '';
     /**
      * @param string $path route path
      * @param string $method route method
@@ -99,6 +100,11 @@ class Route
         return $this->method;
     }
 
+    public function getPrefix(): string
+    {
+        return $this->prefix;
+    }
+
     /**
      * Get the route middleware
      * @return array route middleware
@@ -152,6 +158,14 @@ class Route
         $this->path = $path;
     }
 
+    /**
+     * Set the route prefix
+     */
+    public function setPrefix(string $prefix): void
+    {
+        self::validatePath($prefix);
+        $this->prefix = $prefix;
+    }
     /**
      * Set the route method
      */
