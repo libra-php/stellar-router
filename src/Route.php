@@ -100,6 +100,10 @@ class Route
         return $this->method;
     }
 
+    /**
+     * Get the route prefix
+     * @return string route prefix
+     */
     public function getPrefix(): string
     {
         return $this->prefix;
